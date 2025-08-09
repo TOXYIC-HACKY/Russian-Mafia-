@@ -235,37 +235,17 @@
       border-color: var(--accent-gold);
     }
 
-    .popup {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: #2b2b2b;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
+    footer {
       text-align: center;
-      width: 400px;
-      max-width: 90%;
+      padding: 30px;
+      margin-top: 50px;
     }
 
-    .popup-header {
+    .footer-music-buttons {
+      margin-top: 15px;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    .popup-header h2 {
-      font-size: 1.5rem;
-      color: #33CCFF;
-    }
-
-    .popup-buttons {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 20px;
+      justify-content: center;
+      gap: 15px;
     }
 
     .neon-button {
@@ -281,12 +261,6 @@
 
     .neon-button:hover {
       background-color: #5b5b5b;
-    }
-
-    footer {
-      text-align: center;
-      padding: 30px;
-      margin-top: 50px;
     }
 
     @media (max-width: 768px) {
@@ -317,17 +291,6 @@
   <div class="animated-bg"></div>
   <div class="electric-pulse"></div>
 
-  <div id="popup" class="popup">
-    <div class="popup-header">
-      <h2>Music Request</h2>
-    </div>
-    <p>Do you want to play some music?</p>
-    <div class="popup-buttons">
-      <button id="yes-button" class="neon-button">Yes</button>
-      <button id="no-button" class="neon-button">No</button>
-    </div>
-  </div>
-
   <audio id="music-player" src=""></audio>
 
   <div class="container">
@@ -336,15 +299,15 @@
         <img src="https://files.catbox.moe/48wlrw.jpg" alt="HACKLINKTECH logo" class="logo-image" />
         <div class="logo-text">
           <h1 id="typewriter"></h1>
-          <span>The Best  TECHNOLOGICAL Platform</span>
+          <span>The Best TECHNOLOGICAL Platform</span>
         </div>
       </div>
     </header>
 
     <main class="main-content">
       <img src="https://files.catbox.moe/48wlrw.jpg" alt="HACKLINKTECH" class="feature-image" />
-      <h2>HACKLINKTECH  Developed By HACKLINK TECH.INC</h2>
-      <p>HACKLINKTECH .</p>
+      <h2>HACKLINKTECH Developed By HACKLINK TECH.INC</h2>
+      <p>HACKLINKTECH.</p>
 
       <div class="button-group">
         <a href="https://whatsapp.com/channel/0029Vb6jxRD7IUYbQfokIu2s" class="btn btn-download">
@@ -367,6 +330,10 @@
 
     <footer>
       <p>&copy; HACKLINKTECH</p>
+      <div class="footer-music-buttons">
+        <button id="yes-button" class="neon-button">Play Music</button>
+        <button id="no-button" class="neon-button">Stop Music</button>
+      </div>
     </footer>
   </div>
 
@@ -383,8 +350,6 @@
 
     window.onload = function() {
       typeWriter();
-      const popup = document.getElementById("popup");
-      popup.style.display = "block";
 
       const musicFiles = [
         "https://files.catbox.moe/vmwi86.mp3",
@@ -397,19 +362,19 @@
       const noButton = document.getElementById("no-button");
       const musicPlayer = document.getElementById("music-player");
 
-      let currentMusicIndex = 0;
       let musicCount = 0;
 
       yesButton.addEventListener("click", playMusic);
-      noButton.addEventListener("click", closePopup);
+      noButton.addEventListener("click", stopMusic);
 
       function playMusic() {
-        popup.style.display = "none";
+        musicCount = 0;
         playNextMusic();
       }
 
-      function closePopup() {
-        popup.style.display = "none";
+      function stopMusic() {
+        musicPlayer.pause();
+        musicPlayer.currentTime = 0;
       }
 
       function playNextMusic() {
@@ -426,7 +391,7 @@
           }
 
           musicPlayer.onerror = function() {
-            console.error("Error playing music:");
+            console.error("Error playing music");
           }
         }
       }
