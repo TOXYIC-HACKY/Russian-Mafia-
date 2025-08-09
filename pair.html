@@ -1,143 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>HACKLINK BOTS  PAIR CODE</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Arial', sans-serif;
-      background: linear-gradient(to right, #4e0000, #8b0000);
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: white;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vpn files</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #1a1a1a;
+            overflow: hidden;
+        }
 
-    .container {
-      background: rgba(255, 0, 0, 0.15);
-      padding: 2rem;
-      border-radius: 20px;
-      box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
-      width: 90%;
-      max-width: 400px;
-      text-align: center;
-      backdrop-filter: blur(5px);
-    }
+        .snowflake {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #33ccff;
+            border-radius: 50%;
+            filter: blur(2px);
+            animation: fall 5s linear infinite;
+        }
 
-    .container h2 {
-      font-size: 24px;
-      margin-bottom: 10px;
-      font-weight: bold;
-    }
+        @keyframes fall {
+            0% {
+                transform: translate(0, -10px);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(0, 100vh);
+                opacity: 0;
+            }
+        }
 
-    .container p {
-      font-size: 14px;
-      margin-bottom: 20px;
-    }
+        #music-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
 
-    .input-group {
-      display: flex;
-      margin-bottom: 20px;
-      overflow: hidden;
-      border-radius: 12px;
-      border: 1px solid #ffcccc;
-    }
+        #music-popup button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
 
-    .input-group input {
-      flex: 1;
-      padding: 12px;
-      border: none;
-      outline: none;
-      font-size: 16px;
-      color: #111;
-    }
+        #music-popup button:hover {
+            background-color: #ccc;
+        }
 
-    .input-group button {
-      background: #ff0044;
-      color: white;
-      border: none;
-      padding: 0 20px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.3s;
-    }
+        #external-url {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 10px;
+            width: 40%;
+        }
 
-    .input-group button:hover {
-      background: #00ff88;
-      color: #000;
-    }
-
-    #pair, #waiting-message {
-      margin-top: 1rem;
-      font-weight: bold;
-    }
-
-    @media (max-width: 480px) {
-      .input-group {
-        flex-direction: column;
-      }
-
-      .input-group button {
-        width: 100%;
-        border-radius: 0 0 12px 12px;
-      }
-
-      .input-group input {
-        border-radius: 12px 12px 0 0;
-      }
-    }
-  </style>
+        #open-url {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            padding: 10px;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h2><i class="fas fa-link"></i> HACKLINK-BOTS</h2>
-    <p>⚙ Enter your WhatsApp number with country code</p>
-    <div class="input-group">
-      <input type="number" id="number" placeholder="+254712××××××">
-      <button id="submit">Enter</button>
+    <div id="music-popup">
+        <p style="color: white; font-size: 24px;">Do you wanna play background music?</p>
+        <button id="play-music-yes">Yes</button>
+        <button id="play-music-no">No</button>
+        <input id="music-url" type="text" style="display: none;" value="your_music_url.mp3">
     </div>
-    <div id="waiting-message" style="display:none;">Please wait...</div>
-    <div id="pair"></div>
-  </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"></script>
-  <script>
-    const numberInput = document.getElementById("number");
-    const submitBtn = document.getElementById("submit");
-    const pairDiv = document.getElementById("pair");
-    const waitingMessage = document.getElementById("waiting-message");
+    <input id="external-url" type="text" placeholder="Enter URL to open externally">
+    <button id="open-url">Open URL</button>
+    <audio id="background-music" loop></audio>
 
-    async function Copy() {
-      const codeText = document.getElementById("copy").innerText.replace('CODE: ', '');
-      await navigator.clipboard.writeText(codeText);
-      const el = document.getElementById("copy");
-      el.innerText = "COPIED";
-      el.style.color = "blue";
-      setTimeout(() => {
-        el.innerText = "CODE: " + codeText;
-        el.style.color = "red";
-      }, 1000);
-    }
+    <script>
+        document.getElementById("play-music-yes").addEventListener("click", function() {
+            var musicUrl = document.getElementById("music-url").value;
+            var music = document.getElementById("background-music");
+            music.src = musicUrl;
+            music.play();
+            document.getElementById("music-popup").style.display = "none";
+        });
 
-    submitBtn.addEventListener("click", async () => {
-      const number = numberInput.value.replace(/[^0-9]/g, "");
-      if (!number || number.length < 11) {
-        pairDiv.innerHTML = `<p style="color: yellow">🚫 Invalid number</p>`;
-        return;
-      }
+        document.getElementById("play-music-no").addEventListener("click", function() {
+            document.getElementById("music-popup").style.display = "none";
+        });
 
-      waitingMessage.style.display = "block";
-      const response = await axios(`/code?number=${number}`);
-      waitingMessage.style.display = "none";
+        document.getElementById("open-url").addEventListener("click", function() {
+            var url = document.getElementById("external-url").value;
+            window.open(url, "_blank");
+        });
 
-      const code = response.data.code || "Service Unavailable";
-      pairDiv.innerHTML = `<p id="copy" onclick="Copy()" style="cursor:pointer; color: red">CODE: <span style="color:white">${code}</span></p>`;
-    });
-  </script>
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+            snowflake.style.left = `${Math.random() * 100}%`;
+            snowflake.style.animationDelay = `${Math.random() * 5}s`;
+            snowflake.style.width = `${Math.random() * 5 + 5}px`;
+            snowflake.style.height = snowflake.style.width;
+            snowflake.style.background = `hsl(190, 100%, ${Math.random() * 20 + 70}%)`;
+            document.body.appendChild(snowflake);
+
+            setTimeout(() => {
+                snowflake.remove();
+            }, 5000);
+        }
+
+        setInterval(createSnowflake, 100);
+    </script>
 </body>
 </html>
