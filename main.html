@@ -245,6 +245,27 @@
       border-radius: 10px;
       box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
       text-align: center;
+      width: 400px;
+      max-width: 90%;
+    }
+
+    .popup-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .popup-header h2 {
+      font-size: 1.5rem;
+      color: #33CCFF;
+    }
+
+    .popup-buttons {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
     }
 
     .neon-button {
@@ -297,12 +318,17 @@
   <div class="electric-pulse"></div>
 
   <div id="popup" class="popup">
-    <h2 style="color: #33CCFF;">Do you want to play some music?</h2>
-    <button id="yes-button" class="neon-button">Yes</button>
-    <button id="no-button" class="neon-button">No</button>
+    <div class="popup-header">
+      <h2>Music Request</h2>
+    </div>
+    <p>Do you want to play some music?</p>
+    <div class="popup-buttons">
+      <button id="yes-button" class="neon-button">Yes</button>
+      <button id="no-button" class="neon-button">No</button>
+    </div>
   </div>
 
-  <audio id="music-player" src="" autoplay></audio>
+  <audio id="music-player" src=""></audio>
 
   <div class="container">
     <header>
@@ -355,17 +381,18 @@
         setTimeout(typeWriter, 150);
       }
     }
+
     window.onload = function() {
       typeWriter();
       const popup = document.getElementById("popup");
       popup.style.display = "block";
 
       const musicFiles = [
-        "music1.mp3",
-        "music2.mp3",
-        "music3.mp3",
-        "music4.mp3"
-      ]; // replace with your own music files
+        "https://files.catbox.moe/2j8j4z.mp3",
+        "https://files.catbox.moe/bgj4t5.mp3",
+        "https://files.catbox.moe/8u5d3x.mp3",
+        "https://files.catbox.moe/9w8k5g.mp3"
+      ]; 
 
       const yesButton = document.getElementById("yes-button");
       const noButton = document.getElementById("no-button");
@@ -387,14 +414,20 @@
       }
 
       function playNextMusic() {
-        if (musicCount < 2) { // play 2 music files
+        if (musicCount < 2) { 
           const randomIndex = Math.floor(Math.random() * musicFiles.length);
           musicPlayer.src = musicFiles[randomIndex];
-          musicPlayer.play();
+          musicPlayer.play().catch(error => {
+            console.error("Error playing music:", error);
+          });
           musicCount++;
 
           musicPlayer.onended = function() {
             playNextMusic();
+          }
+
+          musicPlayer.onerror = function() {
+            console.error("Error playing music:");
           }
         }
       }
