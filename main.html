@@ -235,6 +235,33 @@
       border-color: var(--accent-gold);
     }
 
+    .popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #2b2b2b;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
+      text-align: center;
+    }
+
+    .neon-button {
+      background-color: #4b4b4b;
+      color: #33CCFF;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+      box-shadow: 0px 0px 10px rgba(51,204,255,0.5);
+    }
+
+    .neon-button:hover {
+      background-color: #5b5b5b;
+    }
+
     footer {
       text-align: center;
       padding: 30px;
@@ -268,6 +295,14 @@
 <body>
   <div class="animated-bg"></div>
   <div class="electric-pulse"></div>
+
+  <div id="popup" class="popup">
+    <h2 style="color: #33CCFF;">Do you want to play some music?</h2>
+    <button id="yes-button" class="neon-button">Yes</button>
+    <button id="no-button" class="neon-button">No</button>
+  </div>
+
+  <audio id="music-player" src="" autoplay></audio>
 
   <div class="container">
     <header>
@@ -320,7 +355,50 @@
         setTimeout(typeWriter, 150);
       }
     }
-    window.onload = typeWriter;
+    window.onload = function() {
+      typeWriter();
+      const popup = document.getElementById("popup");
+      popup.style.display = "block";
+
+      const musicFiles = [
+        "music1.mp3",
+        "music2.mp3",
+        "music3.mp3",
+        "music4.mp3"
+      ]; // replace with your own music files
+
+      const yesButton = document.getElementById("yes-button");
+      const noButton = document.getElementById("no-button");
+      const musicPlayer = document.getElementById("music-player");
+
+      let currentMusicIndex = 0;
+      let musicCount = 0;
+
+      yesButton.addEventListener("click", playMusic);
+      noButton.addEventListener("click", closePopup);
+
+      function playMusic() {
+        popup.style.display = "none";
+        playNextMusic();
+      }
+
+      function closePopup() {
+        popup.style.display = "none";
+      }
+
+      function playNextMusic() {
+        if (musicCount < 2) { // play 2 music files
+          const randomIndex = Math.floor(Math.random() * musicFiles.length);
+          musicPlayer.src = musicFiles[randomIndex];
+          musicPlayer.play();
+          musicCount++;
+
+          musicPlayer.onended = function() {
+            playNextMusic();
+          }
+        }
+      }
+    };
   </script>
 </body>
-  </html>
+</html>
